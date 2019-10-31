@@ -1,6 +1,7 @@
 # Environment Stuff
 *.code-workspace
 .vscode/
+.pio/build/
 
 
 # Prerequisites
