@@ -1,3 +1,8 @@
+# Environment Stuff
+*.code-workspace
+.vscode/
+
+
 # Prerequisites
 *.d
 
