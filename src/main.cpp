@@ -7,7 +7,7 @@
 
 //#define NO_CATCHUP
 
-IMU gyro;
+IMU gyro(true);
 Altimeter alt;
 Logger logger;
 
@@ -21,6 +21,7 @@ int lastmode;
 int swtch = 0;
 void ready();
 void armed();
+
 
 void setup()
 {

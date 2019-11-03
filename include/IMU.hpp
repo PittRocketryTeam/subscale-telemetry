@@ -15,19 +15,20 @@ class IMU : public Sensor
     private:
         Adafruit_BNO055 sensor;
         sensors_event_t event;
+        bool verbose;
+        Data *last_data;
 
     public:
 
-        IMU();
+        IMU(bool);
         ~IMU();
 
         bool init();
-        Data read(Data);
-        //Data read_raw(Adafruit_BNO055::adafruit_vector_type_t);
-        Data poll(Data);
+        Data poll(Data) override;
+        Data read(Data) override;
 
-        void enable();
-        void disable();
+        void enable() override;
+        void disable() override;
 };
 
 #endif

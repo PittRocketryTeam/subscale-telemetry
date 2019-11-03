@@ -1,14 +1,17 @@
 #include "IMU.hpp"
+
 #include "board.hpp"
 
-IMU::IMU()
+IMU::IMU(bool v = false)
 {
-    sensor = Adafruit_BNO055(55, IMU_ADDR);
+    sensor = Adafruit_BNO055(55, I2C_ADDR);
+    verbose = v;
+    last_data = new Data;
 }
 
 IMU::~IMU()
 {
-    
+    delete last_data;
 }
 
 bool IMU::init()
@@ -60,19 +63,6 @@ Data IMU::read(Data data)
     return data;
 }
 
-/*std::vector<float> IMU::read_raw(Adafruit_BNO055::adafruit_vector_type_t t)
-{
-    std::vector<float> ret(IMU_DIMENIONS, 0);
-
-    imu::Vector<3> v = sensor.getVector(t);
-
-    ret[0] = v[0];
-    ret[1] = v[1];
-    ret[2] = v[2];
-
-    return ret;
-}*/
-
 Data IMU::poll(Data data)
 {
     sensor.getEvent(&event);
@@ -81,7 +71,7 @@ Data IMU::poll(Data data)
     data.imuData.euler_abs_orientation_y = event.orientation.y;
     data.imuData.euler_abs_orientation_z = event.orientation.z;
     
-    return data;
+    return *last_data;
 }
 
 void IMU::enable()
