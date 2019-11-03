@@ -31,19 +31,23 @@ Data AnalogDevices::poll(Data data)
 {
     int photocell_raw = analogRead(PHOTOCELL_PIN); 
     int thermistor_raw = analogRead(THERMISTOR_PIN); 
+    Serial.print(photocell_raw);
+    Serial.print(" ,");
+    Serial.println(thermistor_raw);
     temperature = calculate_temperature(thermistor_raw, THERMISTOR_BETA);
     intensity = calculate_intensity(photocell_raw);
 
+    return read(data);    
 }
 
 void AnalogDevices::enable()
 {
-
+    enabled = true;
 }
 
 void AnalogDevices::disable()
 {
-
+    enabled = false;
 }
 
 bool AnalogDevices::init()
@@ -63,5 +67,5 @@ float AnalogDevices::calculate_temperature(int raw, float beta)
 
 float AnalogDevices::calculate_intensity(int raw) 
 {
-
+    return (float)raw;
 }

@@ -4,12 +4,14 @@
 #include "IMU.hpp"
 #include "Logger.hpp"
 #include "Metro.h"
+#include "AnalogDevices.hpp"
 
 //#define NO_CATCHUP
 
 IMU gyro(true);
 Altimeter alt;
 Logger logger;
+AnalogDevices ad;
 
 Data state;
 
@@ -35,9 +37,11 @@ void setup()
     alt.init();
     alt.setBaselinePressure();
     logger.init();
+    ad.init();
 
     logger.addSensor(&gyro);
     logger.addSensor(&alt);
+    logger.addSensor(&ad);
 
     pinMode(13, OUTPUT);
     pinMode(33, INPUT_PULLUP);
@@ -90,6 +94,7 @@ void armed()
     }
     state = gyro.poll(state);
     state = alt.poll(state);
+    state = ad.poll(state);
 
     if (log_write.check())
     {

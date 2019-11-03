@@ -63,28 +63,14 @@ Data Logger::readDataFromSensors()
 
 bool Logger::writeToMemory(Data data)
 {
-    /*File microSD = SD.open(filename, FILE_WRITE); 
-
-    if (!microSD) 
-        return false;
-        
-    // TODO: Serialize data for logging
-
-    for (uint64_t i = 0; i < sizeof(data); i++)
-        Serial.printf("writen to board: %c\n", &data);
-    size_t bytes_written = microSD.write(&data, sizeof(data));     
-    microSD.close();*/
-    //return (bytes_written == sizeof(data));  
-
     if (!handle)
     {
-        //Serial.println("cannot write!!!!!!!!!!!!!!!!!!111");
         return false;
     }
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f\n",
+    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, ,%f,%f\n",
             data.timestamp,
 
             data.altimeterData.temperature, 
@@ -113,7 +99,10 @@ bool Logger::writeToMemory(Data data)
             
             data.imuData.euler_abs_orientation_x, 
             data.imuData.euler_abs_orientation_y, 
-            data.imuData.euler_abs_orientation_z
+            data.imuData.euler_abs_orientation_z,
+
+            data.healthData.main_battery_temperature,
+            data.photocellData.brightness
             
            // data.photocellData.brightness
     );

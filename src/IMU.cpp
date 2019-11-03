@@ -5,12 +5,12 @@ IMU::IMU(bool v = false)
 {
     sensor = Adafruit_BNO055(55, IMU_ADDR);
     verbose = v;
-    last_data = new Data;
+    //last_data = new Data;
 }
 
 IMU::~IMU()
 {
-    delete last_data;
+    //delete last_data;
 }
 
 bool IMU::init()
@@ -42,24 +42,7 @@ bool IMU::init()
 
 Data IMU::read(Data data)
 {
-    /*std::vector<float> ret(IMU_DIMENIONS, 0);
-
-    sensors_event_t event;
-    sensor.getEvent(&event);
-
-    ret[0] = event.orientation.x;
-    ret[1] = event.orientation.y;
-    ret[2] = event.orientation.z;
-
-    *poll_vector_ptr = ret;
-
-    return ret;*/
-
-    data.imuData.euler_abs_orientation_x = event.orientation.x;
-    data.imuData.euler_abs_orientation_y = event.orientation.y;
-    data.imuData.euler_abs_orientation_z = event.orientation.z;
-
-    return data;
+    return last_data;
 }
 
 Data IMU::poll(Data data)
@@ -70,7 +53,8 @@ Data IMU::poll(Data data)
     data.imuData.euler_abs_orientation_y = event.orientation.y;
     data.imuData.euler_abs_orientation_z = event.orientation.z;
     
-    return *last_data;
+    last_data = data;
+    return read(data);
 }
 
 void IMU::enable()

@@ -16,7 +16,8 @@ class IMU : public Sensor
         Adafruit_BNO055 sensor;
         sensors_event_t event;
         bool verbose;
-        Data *last_data;
+        //Data *last_data;
+        Data last_data;
 
     public:
 
