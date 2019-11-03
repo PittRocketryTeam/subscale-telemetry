@@ -84,13 +84,14 @@ bool Logger::writeToMemory(Data data)
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%d,%f,%c,%f,%c,%d,%d,%f,%f,%f, ,%f,%f,%f,%f,%f,%f, ,%f,%f,%f, ,%f\n",
+    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f\n",
             data.timestamp,
 
             data.altimeterData.temperature, 
             data.altimeterData.pressure, 
             data.altimeterData.altitude,
             
+            /*
             data.gpsData.time, 
             data.gpsData.latitude, 
             data.gpsData.lat_direction, 
@@ -108,12 +109,13 @@ bool Logger::writeToMemory(Data data)
             data.healthData.reg_5V_battery_voltage, 
             data.healthData.reg_3V3_battery_temperature, 
             data.healthData.reg_3V3_battery_voltage,
+            */
             
             data.imuData.euler_abs_orientation_x, 
             data.imuData.euler_abs_orientation_y, 
-            data.imuData.euler_abs_orientation_z,
+            data.imuData.euler_abs_orientation_z
             
-            data.photocellData.brightness
+           // data.photocellData.brightness
     );
 
     return true; 

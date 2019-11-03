@@ -67,7 +67,7 @@ class Logger
         */
         char filename[128];
         char buffer[1000];
-        File handle;
+        File32 handle;
 };
 
 #endif
