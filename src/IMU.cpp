@@ -1,10 +1,9 @@
 #include "IMU.hpp"
-
 #include "board.hpp"
 
 IMU::IMU(bool v = false)
 {
-    sensor = Adafruit_BNO055(55, I2C_ADDR);
+    sensor = Adafruit_BNO055(55, IMU_ADDR);
     verbose = v;
     last_data = new Data;
 }
