@@ -5,13 +5,14 @@
 #include "Logger.hpp"
 #include "Metro.h"
 
-IMU gyro;
+IMU gyro(true);
 Altimeter alt;
 Logger logger;
 
 Data state;
 
 Metro do_log;
+
 
 void setup()
 {
@@ -27,7 +28,7 @@ void setup()
 void loop()
 {
 
-    //gyro.poll(state);
+    gyro.poll(state);
     alt.poll(state);
 
     if (do_log.check())

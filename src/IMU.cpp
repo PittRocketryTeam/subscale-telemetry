@@ -1,23 +1,15 @@
 #include "IMU.hpp"
-#include "board.hpp"
-
-IMU::IMU()
-{
-    sensor = Adafruit_BNO055(55, I2C_ADDR);
-    verbose = false;
-    poll_vector_ptr = new std::vector<float>;
-}
 
 IMU::IMU(bool v = false)
 {
     sensor = Adafruit_BNO055(55, I2C_ADDR);
     verbose = v;
-    poll_vector_ptr = new std::vector<float>;
+    last_data = new Data;
 }
 
 IMU::~IMU()
 {
-    
+    delete last_data;
 }
 
 bool IMU::init()
@@ -42,38 +34,40 @@ bool IMU::init()
     return false;
 }
 
-std::vector<float> IMU::read()
+Data IMU::read(Data d)
 {
-    std::vector<float> ret(IMU_DIMENIONS, 0);
+    d.imuData.euler_abs_orientation_x = last_data->imuData.euler_abs_orientation_x;
+    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
+    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
 
+    return d;
+}
+
+// Data IMU::read_raw()
+// {
+//     std::vector<float> ret(IMU_DIMENIONS, 0);
+//
+//     imu::Vector<3> v = sensor.getVector(t);
+//
+//     ret[0] = v[0];
+//     ret[1] = v[1];
+//     ret[2] = v[2];
+//
+//     return ret;
+// }
+
+Data IMU::poll(Data d)
+{
     sensors_event_t event;
     sensor.getEvent(&event);
 
-    ret[0] = event.orientation.x;
-    ret[1] = event.orientation.y;
-    ret[2] = event.orientation.z;
+    d.imuData.euler_abs_orientation_x = event.orientation.x;
+    d.imuData.euler_abs_orientation_y = event.orientation.y;
+    d.imuData.euler_abs_orientation_z = event.orientation.z;
 
-    *poll_vector_ptr = ret;
+    *last_data = d;
 
-    return ret;
-}
-
-std::vector<float> IMU::read_raw(Adafruit_BNO055::adafruit_vector_type_t t)
-{
-    std::vector<float> ret(IMU_DIMENIONS, 0);
-
-    imu::Vector<3> v = sensor.getVector(t);
-
-    ret[0] = v[0];
-    ret[1] = v[1];
-    ret[2] = v[2];
-
-    return ret;
-}
-
-std::vector<float> IMU::poll()
-{
-    return *poll_vector_ptr;
+    return *last_data;
 }
 
 void IMU::enable()
