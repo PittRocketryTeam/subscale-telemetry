@@ -8,7 +8,8 @@
 
 Metro::Metro() : 
     interval(1000),
-    resolution(MILLIS)
+    resolution(MILLIS),
+    previous(millis())
 {	
 }
 
@@ -56,18 +57,19 @@ uint8_t Metro::check(unsigned long d)
         return 1;
     }
 
-    if (now < previous)
+    /*if (now < previous)
     {
         // overflow detected
         // reset the timer and leave
         
         reset();
         return 0;
-    }
+    }*/
     
-    unsigned long delta = (now - previous) - d;
+    unsigned long delta = (now - previous);
+    //Serial.printf("%ld: delta = %ld\n", d, delta);
 
-    if (delta >= 0)
+    if (delta >= d)
     {
 #ifdef NO_CATCHUP
         previous = now;

@@ -5,18 +5,16 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include <vector>
 #include "Data.hpp"
 #include "Sensor.hpp"
 
 #define IMU_DIMENIONS 3
-#define I2C_ADDR 0x28
-
 
 class IMU : public Sensor
 {
     private:
         Adafruit_BNO055 sensor;
+        sensors_event_t event;
         bool verbose;
         Data *last_data;
 
