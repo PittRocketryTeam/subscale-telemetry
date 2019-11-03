@@ -36,17 +36,11 @@ bool IMU::init()
 
 Data IMU::read(Data d)
 {
+    d.imuData.euler_abs_orientation_x = last_data->imuData.euler_abs_orientation_x;
+    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
+    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
 
-    sensors_event_t event;
-    sensor.getEvent(&event);
-
-    d.imuData.euler_abs_orientation_x = event.orientation.x;
-    d.imuData.euler_abs_orientation_y = event.orientation.y;
-    d.imuData.euler_abs_orientation_z = event.orientation.z;
-
-    *last_data = d;
-
-    return *last_data;
+    return d;
 }
 
 // Data IMU::read_raw()
@@ -64,11 +58,16 @@ Data IMU::read(Data d)
 
 Data IMU::poll(Data d)
 {
-    d.imuData.euler_abs_orientation_x = last_data->imuData.euler_abs_orientation_x;
-    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
-    d.imuData.euler_abs_orientation_y = last_data->imuData.euler_abs_orientation_y;
+    sensors_event_t event;
+    sensor.getEvent(&event);
 
-    return d;
+    d.imuData.euler_abs_orientation_x = event.orientation.x;
+    d.imuData.euler_abs_orientation_y = event.orientation.y;
+    d.imuData.euler_abs_orientation_z = event.orientation.z;
+
+    *last_data = d;
+
+    return *last_data;
 }
 
 void IMU::enable()
