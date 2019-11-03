@@ -2,7 +2,9 @@
 
 Analogdevices::Analogdevices()
 {
-
+    enabled = true;
+    temperature = 0;
+    intensity = 0;
 }
 
 Analogdevices::~Analogdevices()
@@ -15,7 +17,7 @@ Data Analogdevices::read(Data data)
 {
     if (!enabled)
     {
-        return data
+        return data;
     }
 
     data.HealthData.main_battery_temperature = temperature; 

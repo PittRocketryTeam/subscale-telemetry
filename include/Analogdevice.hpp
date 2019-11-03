@@ -23,6 +23,7 @@ public:
 private:
     float temperature; 
     float intensity; 
+    bool enabled;
 
 };
 
