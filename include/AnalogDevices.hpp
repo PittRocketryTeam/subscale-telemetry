@@ -1,14 +1,16 @@
 #ifndef ANALOGDEVICES_HPP
 #define ANALOGDEVICES_HPP
-#include "Sensor.hpp"
 
-class AnalogDevices : Sensor
+#include "Sensor.hpp"
+#include "Data.hpp"
+
+class AnalogDevices : public Sensor
 {
 public: 
     AnalogDevices();
     ~AnalogDevices(); 
 
-    void init()
+    bool init();
     Data read(Data data); 
     Data poll(Data data);
     void enable();
@@ -19,8 +21,8 @@ public:
 
 
 private:
-    float calculate_temperature(); 
-    float calculate_intensity(); 
+    float calculate_temperature(int, float); 
+    float calculate_intensity(int); 
     
     float temperature; 
     float intensity; 

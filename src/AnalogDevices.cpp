@@ -16,7 +16,7 @@ Data AnalogDevices::read(Data data)
 {
     if (!enabled)
     {
-        return data
+        return data;
     }
 
     data.healthData.main_battery_temperature = temperature; 
@@ -27,27 +27,29 @@ Data AnalogDevices::read(Data data)
 
 Data AnalogDevices::poll(Data data)
 {
-    int Photocell_raw = analogRead(PHOTOCELL_PIN); 
-    int Thermistor_raw = analogRead(THERMISTOR_PIN); 
-    temperature = calculate_temperature(Thermistor_raw, THERMISTOR_BETA);
-    intensity = calculate_intensity(Photocell_raw, );
+    int photocell_raw = analogRead(PHOTOCELL_PIN); 
+    int thermistor_raw = analogRead(THERMISTOR_PIN); 
+    temperature = calculate_temperature(thermistor_raw, THERMISTOR_BETA);
+    intensity = calculate_intensity(photocell_raw);
 
 }
 
-Data AnalogDevices::void enable()
+void AnalogDevices::enable()
 {
 
 }
 
-Data AnalogDevices::void disable()
+void AnalogDevices::disable()
 {
 
 }
 
-Data AnalogDevices::void init()
+bool AnalogDevices::init()
 {
     pinMode(PHOTOCELL_PIN, INPUT); 
     pinMode(THERMISTOR_PIN, INPUT);
+
+    return true;
 }
 
 
@@ -57,7 +59,7 @@ float AnalogDevices::calculate_temperature(int raw, float beta)
     return k - 273.15;
 }
 
-float AnalogDevices::calculate_intensity() 
+float AnalogDevices::calculate_intensity(int raw) 
 {
 
 }
