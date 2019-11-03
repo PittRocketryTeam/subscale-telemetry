@@ -5,30 +5,26 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
 #include <utility/imumaths.h>
-#include <vector>
-// #include "Sensor.hpp"
+#include "Data.hpp"
+#include "Sensor.hpp"
 
 #define IMU_DIMENIONS 3
-#define I2C_ADDR 0x28
 
-
-class IMU //: public Sensor
+class IMU : public Sensor
 {
     private:
         Adafruit_BNO055 sensor;
-        bool verbose;
-        std::vector<float> *poll_vector_ptr = nullptr;
+        sensors_event_t event;
 
     public:
 
         IMU();
-        IMU(bool);
         ~IMU();
 
         bool init();
-        std::vector<float> read();
-        std::vector<float> read_raw(Adafruit_BNO055::adafruit_vector_type_t);
-        std::vector<float> poll();
+        Data read(Data);
+        //Data read_raw(Adafruit_BNO055::adafruit_vector_type_t);
+        Data poll(Data);
 
         void enable();
         void disable();

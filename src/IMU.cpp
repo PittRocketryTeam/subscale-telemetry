@@ -3,16 +3,7 @@
 
 IMU::IMU()
 {
-    sensor = Adafruit_BNO055(55, I2C_ADDR);
-    verbose = false;
-    poll_vector_ptr = new std::vector<float>;
-}
-
-IMU::IMU(bool v = false)
-{
-    sensor = Adafruit_BNO055(55, I2C_ADDR);
-    verbose = v;
-    poll_vector_ptr = new std::vector<float>;
+    sensor = Adafruit_BNO055(55, IMU_ADDR);
 }
 
 IMU::~IMU()
@@ -23,9 +14,14 @@ IMU::~IMU()
 bool IMU::init()
 {
 
-    while(!sensor.begin())
+    int i;
+    for (i = 0; i < 10; ++i)
     {
-        if (verbose)
+        if (sensor.begin())
+        {
+            break;
+        }
+        if (VERBOSE)
         {
             Serial.println("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
         }
@@ -34,7 +30,7 @@ bool IMU::init()
 
     sensor.setExtCrystalUse(true);
 
-    if (verbose)
+    if (VERBOSE)
     {
         Serial.println("BNO055 Initialized successfully!");
     }
@@ -42,9 +38,9 @@ bool IMU::init()
     return false;
 }
 
-std::vector<float> IMU::read()
+Data IMU::read(Data data)
 {
-    std::vector<float> ret(IMU_DIMENIONS, 0);
+    /*std::vector<float> ret(IMU_DIMENIONS, 0);
 
     sensors_event_t event;
     sensor.getEvent(&event);
@@ -55,10 +51,16 @@ std::vector<float> IMU::read()
 
     *poll_vector_ptr = ret;
 
-    return ret;
+    return ret;*/
+
+    data.imuData.euler_abs_orientation_x = event.orientation.x;
+    data.imuData.euler_abs_orientation_y = event.orientation.y;
+    data.imuData.euler_abs_orientation_z = event.orientation.z;
+
+    return data;
 }
 
-std::vector<float> IMU::read_raw(Adafruit_BNO055::adafruit_vector_type_t t)
+/*std::vector<float> IMU::read_raw(Adafruit_BNO055::adafruit_vector_type_t t)
 {
     std::vector<float> ret(IMU_DIMENIONS, 0);
 
@@ -69,25 +71,35 @@ std::vector<float> IMU::read_raw(Adafruit_BNO055::adafruit_vector_type_t t)
     ret[2] = v[2];
 
     return ret;
-}
+}*/
 
-std::vector<float> IMU::poll()
+Data IMU::poll(Data data)
 {
-    return *poll_vector_ptr;
+    sensor.getEvent(&event);
+
+    data.imuData.euler_abs_orientation_x = event.orientation.x;
+    data.imuData.euler_abs_orientation_y = event.orientation.y;
+    data.imuData.euler_abs_orientation_z = event.orientation.z;
+    
+    return data;
 }
 
 void IMU::enable()
 {
-    if (verbose)
+    if (VERBOSE)
+    {
         Serial.println("IMU Enabled");
+    }
 
     sensor.enterNormalMode();
 }
 
 void IMU::disable()
 {
-    if (verbose)
+    if (VERBOSE)
+    {
         Serial.println("IMU Disabled");
+    }
 
     sensor.enterSuspendMode();
 }

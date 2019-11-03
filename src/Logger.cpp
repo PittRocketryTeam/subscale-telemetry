@@ -1,46 +1,61 @@
 #include "Logger.hpp"
 #include "board.hpp"
 
-Logger::Logger() {}
+Logger::Logger() :
+    num_sensors(0)
+{
+
+}
 
 Logger::~Logger() {}
 
 bool Logger::init()
 {
-    generateFilename(filename);  // Generate unique log filename
+    generateFilename();  // Generate unique log filename
     Serial.printf("filename = %s", filename);
-    return SD.begin(BUILTIN_SDCARD);    // Make sure SD card begins
+    int i;
+    for (i = 0; i < 1000; ++i)
+    {
+        int status = SD.begin(BUILTIN_SDCARD);
+        if (status)
+        {
+            break;
+        }
+        Serial.println("cannot init sd");
+    }
+    delay(1000); // replace with loop
+    handle = SD.open(filename, FILE_WRITE);
+
+    return true;
 }
 
 void Logger::addSensor(Sensor* sensor)
 {
-    sensors.push_back(sensor);
-}
-
-void Logger::addSensors(std::vector<Sensor*> sens)
-{
-    
+    sensors[num_sensors++] = sensor;
 }
 
 bool Logger::log()
 {
-    Serial.printf("Logging data");
     Data data = readDataFromSensors();  // Read data from sensors              
     return writeToMemory(data);         // Write data to micro SD
 }
 
-void Logger::generateFilename(char filename[])
+void Logger::generateFilename()
 {
-    // sprintf(filename, "%d_%d-%d-%d_%d-%d-%d.log", weekday(), month(), day(), year(), hour(), minute(), second());
-    sprintf(filename, "loggylog.log");
+    memset(filename, 0, sizeof(filename));
+    //sprintf(filename, "%d_%d-%d-%d_%d-%d-%d.log", weekday(), month(), day(), year(), hour(), minute(), second());
+    sprintf(filename, "loggylog.csv");
 
 }
 
 Data Logger::readDataFromSensors()
 {
     Data data;
-    for (Sensor* s : sensors)
-        data = s->read(data);   // Read data from sensors
+    int i;
+    for (i = 0; i < num_sensors; ++i)
+    {
+        data = sensors[i]->read(data);
+    }
 
     data.timestamp = now();     // Add timestamp
     return data;                        
@@ -48,7 +63,7 @@ Data Logger::readDataFromSensors()
 
 bool Logger::writeToMemory(Data data)
 {
-    File microSD = SD.open(filename, FILE_WRITE); 
+    /*File microSD = SD.open(filename, FILE_WRITE); 
 
     if (!microSD) 
         return false;
@@ -58,7 +73,74 @@ bool Logger::writeToMemory(Data data)
     for (uint64_t i = 0; i < sizeof(data); i++)
         Serial.printf("writen to board: %c\n", &data);
     size_t bytes_written = microSD.write(&data, sizeof(data));     
-    microSD.close();                                                        
-        
-    return (bytes_written == sizeof(data));   
+    microSD.close();*/
+    //return (bytes_written == sizeof(data));  
+
+    if (!handle)
+    {
+        //Serial.println("cannot write!!!!!!!!!!!!!!!!!!111");
+        return false;
+    }
+
+    // TODO write csv format
+
+    handle.printf("%ld, ,%f,%f,%f, ,%d,%f,%c,%f,%c,%d,%d,%f,%f,%f, ,%f,%f,%f,%f,%f,%f, ,%f,%f,%f, ,%f\n",
+            data.timestamp,
+
+            data.altimeterData.temperature, 
+            data.altimeterData.pressure, 
+            data.altimeterData.altitude,
+            
+            data.gpsData.time, 
+            data.gpsData.latitude, 
+            data.gpsData.lat_direction, 
+            data.gpsData.longitude, 
+            data.gpsData.long_direction, 
+            data.gpsData.fix_quality, 
+            data.gpsData.number_of_satellites, 
+            data.gpsData.hdop, 
+            data.gpsData.altitude, 
+            data.gpsData.rssi,
+            
+            data.healthData.main_battery_temperature, 
+            data.healthData.main_battery_voltage, 
+            data.healthData.reg_5V_battery_temperature, 
+            data.healthData.reg_5V_battery_voltage, 
+            data.healthData.reg_3V3_battery_temperature, 
+            data.healthData.reg_3V3_battery_voltage,
+            
+            data.imuData.euler_abs_orientation_x, 
+            data.imuData.euler_abs_orientation_y, 
+            data.imuData.euler_abs_orientation_z,
+            
+            data.photocellData.brightness
+    );
+
+    return true; 
+}
+
+void Logger::flush()
+{
+    if (!handle)
+    {
+        return;
+    }
+    handle.flush();
+}
+
+void Logger::reopen()
+{
+    if (!handle)
+    {
+        handle = SD.open(filename, FILE_WRITE);
+    }
+}
+
+void Logger::close()
+{
+    if (handle.isOpen())
+    {
+        handle.flush();
+        handle.close();
+    }
 }
