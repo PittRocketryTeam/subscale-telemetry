@@ -15,7 +15,6 @@ AnalogDevices ad;
 
 Data state;
 
-Metro log_write;
 Metro log_flush;
 
 int mode;
@@ -23,14 +22,13 @@ int lastmode;
 int swtch = 0;
 void ready();
 void armed();
-
+int led = 0;
 
 void setup()
 {
     Serial.begin(9600);
     delay(1000);
 
-    log_write.setInterval(250);
     log_flush.setInterval(5000);
 
     gyro.init();
@@ -51,8 +49,14 @@ void loop()
 {
     lastmode = mode;
     mode = digitalRead(33);
+    led = mode;
+
     if (lastmode != mode)
     {
+        digitalWrite(13, 1);
+        delay(100);
+        digitalWrite(13, 0);
+        delay(100);
         swtch = 1;
     }
 
@@ -67,7 +71,9 @@ void loop()
 
     if (log_flush.check())
     {
+        digitalWrite(13, 1);
         logger.flush();
+        digitalWrite(13, 0);
     }
 }
 
@@ -78,17 +84,24 @@ void ready()
         //logger.close();
         swtch = 0;
     }
-
-    digitalWrite(13, HIGH);
-    delay(500);
-    digitalWrite(13, LOW);
-    delay(500);
 }
 
 void armed()
 {
     if (swtch)
     {
+        digitalWrite(13, 1);
+        delay(100);
+        digitalWrite(13, 0);
+        delay(100);
+        digitalWrite(13, 1);
+        delay(100);
+        digitalWrite(13, 0);
+        delay(100);
+        digitalWrite(13, 1);
+        delay(100);
+        digitalWrite(13, 0);
+        delay(100);
         //logger.reopen();
         swtch = 0;
     }
@@ -96,10 +109,5 @@ void armed()
     state = alt.poll(state);
     state = ad.poll(state);
 
-    if (log_write.check())
-    {
-        digitalWrite(13, HIGH);
-        logger.log();
-        digitalWrite(13, LOW);
-    }
+    logger.log();
 }
