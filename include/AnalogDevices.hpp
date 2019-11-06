@@ -15,8 +15,8 @@ public:
     Data poll(Data data);
     void enable();
     void disable();
-    #define THERMISTOR_T0 298.15 
-    #define THERMISTOR_BETA 3380.0
+    #define THERMISTOR_T0 279.0 
+    #define THERMISTOR_BETA 1350.0
     #define ANALOG_MAX 1023
 
 

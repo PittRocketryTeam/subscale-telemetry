@@ -105,9 +105,12 @@ void armed()
         //logger.reopen();
         swtch = 0;
     }
+
     state = gyro.poll(state);
     state = alt.poll(state);
     state = ad.poll(state);
+
+    Serial.println(state.healthData.main_battery_temperature);
 
     logger.log();
 }
