@@ -4,7 +4,6 @@
 .pio/build/
 *.checksum
 
-
 # Prerequisites
 *.d
 

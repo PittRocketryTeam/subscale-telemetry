@@ -5,6 +5,7 @@
 #include "Logger.hpp"
 #include "Metro.h"
 #include "AnalogDevices.hpp"
+#include "LaunchDetect.hpp"
 
 //#define NO_CATCHUP
 
@@ -12,6 +13,7 @@ IMU gyro(true);
 Altimeter alt;
 Logger logger;
 AnalogDevices ad;
+LaunchDetect launchDetect;
 
 Data state;
 
@@ -20,9 +22,9 @@ Metro log_flush;
 int mode;
 int lastmode;
 int swtch = 0;
+
 void ready();
 void armed();
-int led = 0;
 
 void setup()
 {
@@ -36,10 +38,12 @@ void setup()
     alt.setBaselinePressure();
     logger.init();
     ad.init();
+    launchDetect.init();
 
     logger.addSensor(&gyro);
     logger.addSensor(&alt);
     logger.addSensor(&ad);
+    logger.addSensor(&launchDetect);
 
     pinMode(13, OUTPUT);
     pinMode(33, INPUT_PULLUP);
@@ -49,7 +53,6 @@ void loop()
 {
     lastmode = mode;
     mode = digitalRead(33);
-    led = mode;
 
     if (lastmode != mode)
     {
@@ -109,8 +112,7 @@ void armed()
     state = gyro.poll(state);
     state = alt.poll(state);
     state = ad.poll(state);
-
-    Serial.println(state.healthData.main_battery_temperature);
+    state = launchDetect.poll(state);
 
     logger.log();
 }

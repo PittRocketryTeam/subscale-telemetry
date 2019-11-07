@@ -8,4 +8,8 @@
 #define ALTIMETER_SDA 18
 #define IMU_ADDR 0X28
 
+/* LAUNCH DETECT */
+
+#define PEOPLE 1
+
 #endif /* BOARD_HPP */
