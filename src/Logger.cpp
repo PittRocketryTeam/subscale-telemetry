@@ -57,7 +57,7 @@ Data Logger::readDataFromSensors()
         data = sensors[i]->read(data);
     }
 
-    data.timestamp = now();     // Add timestamp
+    data.timestamp = millis();     // Add timestamp
     return data;                        
 }
 
@@ -70,7 +70,7 @@ bool Logger::writeToMemory(Data data)
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, ,%f,%f\n",
+    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, ,%f,%f, ,",
             data.timestamp,
 
             data.altimeterData.temperature, 
@@ -106,6 +106,13 @@ bool Logger::writeToMemory(Data data)
             
            // data.photocellData.brightness
     );
+    int i;
+    for (i = 0; i < PEOPLE; i++)
+    {
+        handle.printf("%d,", data.launchDetect[i]);
+    }
+
+    handle.printf("\n");
 
     return true; 
 }

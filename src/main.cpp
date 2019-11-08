@@ -69,6 +69,7 @@ void loop()
     }
     else if (mode == 0)
     {
+        Serial.println("armed");
         armed();
     }
 
@@ -113,6 +114,13 @@ void armed()
     state = alt.poll(state);
     state = ad.poll(state);
     state = launchDetect.poll(state);
+
+    /*Serial.print(state.imuData.euler_abs_orientation_x);
+    Serial.print(", ");
+    Serial.print(state.imuData.euler_abs_orientation_y);
+    Serial.print(", ");
+    Serial.print(state.imuData.euler_abs_orientation_z);
+    Serial.println();*/
 
     logger.log();
 }
