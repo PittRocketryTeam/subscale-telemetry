@@ -41,8 +41,8 @@ private:
     int daniel_dataCount;
     float daniel_altMag, daniel_accelMag;
     float daniel_accelThresh, daniel_altThresh;
-    const float daniel_magMult = .5;
-    const float daniel_thresMult = 2;
+    const float daniel_magMult = .1;
+    const float daniel_thresMult = 1.25;
 };
 
 #endif /* LAUNCHDETECT_HPP */
