@@ -10,6 +10,6 @@
 
 /* LAUNCH DETECT */
 
-#define PEOPLE 1
+#define PEOPLE 2
 
 #endif /* BOARD_HPP */
