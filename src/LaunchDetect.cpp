@@ -25,6 +25,7 @@ void LaunchDetect::daniel(Data data)
 
 void LaunchDetect::daniel_updateAccelStat(Data data)
 {
+    //TODO update to prevent division by zero
     float newMean = daniel_meanAccel + (data.imuData.acceleration_z - daniel_meanAccel) / daniel_dataCount;
     daniel_varAccel += (data.imuData.acceleration_z - daniel_meanAccel) * (data.imuData.acceleration_z - newMean);
     daniel_meanAccel = newMean;
@@ -47,6 +48,7 @@ void LaunchDetect::daniel_updateAccelStat(Data data)
 
 void LaunchDetect::daniel_updateAltStat(Data data)
 {
+    //TODO update to prevent division by zero
     float newMean = daniel_meanAlt + (data.altimeterData.altitude - daniel_meanAlt) / daniel_dataCount;
     daniel_varAlt += (data.altimeterData.altitude - daniel_meanAccel) * (data.altimeterData.altitude - newMean);
     daniel_meanAlt = newMean;
