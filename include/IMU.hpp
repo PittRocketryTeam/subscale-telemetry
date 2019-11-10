@@ -21,6 +21,8 @@ class IMU : public Sensor
 
         float ax, ay, az;
         float ox, oy, oz;
+        imu::Vector<3> o;
+        imu::Vector<3> a;
 
     public:
 

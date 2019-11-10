@@ -75,7 +75,7 @@ void loop()
     }
     else if (mode == 0)
     {
-        Serial.println("armed");
+        //Serial.println("armed");
         armed();
     }
 
