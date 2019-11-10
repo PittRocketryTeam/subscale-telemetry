@@ -34,7 +34,8 @@ Data AnalogDevices::poll(Data data)
     //Serial.print(photocell_raw);
     //Serial.print(" ,");
     //Serial.println(thermistor_raw);
-    temperature = calculate_temperature(thermistor_raw, THERMISTOR_BETA);
+    //temperature = calculate_temperature(thermistor_raw, THERMISTOR_BETA);
+    temperature = (float)thermistor_raw;
     intensity = calculate_intensity(photocell_raw);
 
     return read(data);    

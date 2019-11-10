@@ -5,7 +5,7 @@
 #include "Logger.hpp"
 #include "Metro.h"
 #include "AnalogDevices.hpp"
-#include "LaunchDetect.hpp"
+//#include "LaunchDetect.hpp"
 
 //#define NO_CATCHUP
 
@@ -13,7 +13,7 @@ IMU gyro(true);
 Altimeter alt;
 Logger logger;
 AnalogDevices ad;
-LaunchDetect launchDetect;
+//LaunchDetect launchDetect;
 
 Data state;
 
@@ -28,6 +28,13 @@ void armed();
 
 void setup()
 {
+    pinMode(13, OUTPUT);
+    pinMode(33, INPUT_PULLUP);
+
+    digitalWrite(13, HIGH);
+
+    //delay(1000);
+
     Serial.begin(9600);
     delay(1000);
 
@@ -38,15 +45,14 @@ void setup()
     alt.setBaselinePressure();
     logger.init();
     ad.init();
-    launchDetect.init();
+    //launchDetect.init();
 
     logger.addSensor(&gyro);
     logger.addSensor(&alt);
     logger.addSensor(&ad);
-    logger.addSensor(&launchDetect);
+    //logger.addSensor(&launchDetect);
 
-    pinMode(13, OUTPUT);
-    pinMode(33, INPUT_PULLUP);
+    digitalWrite(13, LOW);
 }
 
 void loop()
@@ -113,7 +119,7 @@ void armed()
     state = gyro.poll(state);
     state = alt.poll(state);
     state = ad.poll(state);
-    state = launchDetect.poll(state);
+    //state = launchDetect.poll(state);
 
     /*Serial.print(state.imuData.euler_abs_orientation_x);
     Serial.print(", ");

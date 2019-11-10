@@ -5,6 +5,12 @@ IMU::IMU(bool v = false)
 {
     sensor = Adafruit_BNO055(55, IMU_ADDR);
     verbose = v;
+    ax = 0.0f;
+    ay = 0.0f;
+    az = 0.0f;
+    ox = 0.0f;
+    oy = 0.0f;
+    oz = 0.0f;
     //last_data = new Data;
 }
 
@@ -37,23 +43,39 @@ bool IMU::init()
         Serial.println("BNO055 Initialized successfully!");
     }
 
+    enable();
+
     return false;
 }
 
 Data IMU::read(Data data)
 {
-    return last_data;
+    data.imuData.euler_abs_orientation_x = ox;
+    data.imuData.euler_abs_orientation_y = oy;
+    data.imuData.euler_abs_orientation_z = oz;
+
+    data.imuData.acceleration_x = ax;
+    data.imuData.acceleration_y = ay;
+    data.imuData.acceleration_z = az;
+
+    return data;
 }
 
 Data IMU::poll(Data data)
 {
     sensor.getEvent(&event);
 
-    data.imuData.euler_abs_orientation_x = event.orientation.x;
-    data.imuData.euler_abs_orientation_y = event.orientation.y;
-    data.imuData.euler_abs_orientation_z = event.orientation.z;
+    //ox = event.orientation.x;
+    //oy = event.orientation.y;
+    //oz = event.orientation.z;
+    ox = oy = oz = 69.0f;
+
+    ax = event.acceleration.x;
+    ay = event.acceleration.y;
+    az = event.acceleration.z;
     
-    last_data = data;
+    //last_data = data;
+
     return read(data);
 }
 

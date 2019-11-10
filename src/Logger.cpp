@@ -70,7 +70,7 @@ bool Logger::writeToMemory(Data data)
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, ,%f,%f, ,",
+    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
             data.timestamp,
 
             data.altimeterData.temperature, 
@@ -101,18 +101,22 @@ bool Logger::writeToMemory(Data data)
             data.imuData.euler_abs_orientation_y, 
             data.imuData.euler_abs_orientation_z,
 
+            data.imuData.acceleration_x,
+            data.imuData.acceleration_y,
+            data.imuData.acceleration_z,
+
             data.healthData.main_battery_temperature,
             data.photocellData.brightness
             
            // data.photocellData.brightness
     );
-    int i;
+    /*int i;
     for (i = 0; i < PEOPLE; i++)
     {
         handle.printf("%d,", data.launchDetect[i]);
     }
 
-    handle.printf("\n");
+    handle.printf("\n");*/
 
     return true; 
 }

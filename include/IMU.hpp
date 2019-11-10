@@ -19,6 +19,9 @@ class IMU : public Sensor
         //Data *last_data;
         Data last_data;
 
+        float ax, ay, az;
+        float ox, oy, oz;
+
     public:
 
         IMU(bool);
