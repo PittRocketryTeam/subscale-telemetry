@@ -12,7 +12,8 @@ Logger::~Logger() {}
 bool Logger::init()
 {
     generateFilename();  // Generate unique log filename
-    Serial.printf("filename = %s", filename);
+    Serial.print("filename = ");
+    Serial.println(filename);
     int i;
     for (i = 0; i < 1000; ++i)
     {
@@ -36,6 +37,7 @@ void Logger::addSensor(Sensor* sensor)
 
 bool Logger::log()
 {
+    Serial.print("Logging data");
     Data data = readDataFromSensors();  // Read data from sensors              
     return writeToMemory(data);         // Write data to micro SD
 }
@@ -70,13 +72,16 @@ bool Logger::writeToMemory(Data data)
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
-            2,
+    //handle.print("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
             //data.timestamp,
+            handle.print(data.timestamp);
 
-            data.altimeterData.temperature, 
-            data.altimeterData.pressure, 
-            data.altimeterData.altitude,
+            //data.altimeterData.temperature, 
+            //data.altimeterData.pressure, 
+            //data.altimeterData.altitude,
+            handle.print(data.altimeterData.temperature);
+            handle.print(data.altimeterData.pressure);
+            handle.print(data.altimeterData.altitude);
             
             /*
             data.gpsData.time, 
@@ -98,19 +103,27 @@ bool Logger::writeToMemory(Data data)
             data.healthData.reg_3V3_battery_voltage,
             */
             
-            data.imuData.euler_abs_orientation_x, 
-            data.imuData.euler_abs_orientation_y, 
-            data.imuData.euler_abs_orientation_z,
+            //data.imuData.euler_abs_orientation_x, 
+            //data.imuData.euler_abs_orientation_y, 
+            //data.imuData.euler_abs_orientation_z,
+            handle.print(data.imuData.euler_abs_orientation_x);
+            handle.print(data.imuData.euler_abs_orientation_y);
+            handle.print(data.imuData.euler_abs_orientation_z);
 
-            data.imuData.acceleration_x,
-            data.imuData.acceleration_y,
-            data.imuData.acceleration_z,
+            //data.imuData.acceleration_x,
+            //data.imuData.acceleration_y,
+            //data.imuData.acceleration_z,
+            handle.print(data.imuData.acceleration_x);
+            handle.print(data.imuData.acceleration_y);
+            handle.print(data.imuData.acceleration_z);
 
-            data.healthData.main_battery_temperature,
-            data.photocellData.brightness
+            //data.healthData.main_battery_temperature,
+            //data.photocellData.brightness
+            handle.print(data.healthData.main_battery_temperature);
+            handle.print(data.photocellData.brightness);
             
            // data.photocellData.brightness
-    );
+    //);
     /*int i;
     for (i = 0; i < PEOPLE; i++)
     {
@@ -119,7 +132,7 @@ bool Logger::writeToMemory(Data data)
 
     handle.printf("\n");*/
 
-    return true; 
+    return true;
 }
 
 void Logger::flush()

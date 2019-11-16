@@ -11,6 +11,7 @@ class Altimeter : public Sensor
         ~Altimeter();
         
         virtual bool init();
+        bool verbose = true;
         Data read(Data data) override;
         Data poll(Data data) override;
         void enable() override;

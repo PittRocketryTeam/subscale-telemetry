@@ -4,6 +4,8 @@
 //#include "Time.h"
 #include "board.hpp"
 
+#define PEOPLE 2
+
 // Data struct definitions for each sensor and for overall data struct.
 
 /**

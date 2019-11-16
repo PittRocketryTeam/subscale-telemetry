@@ -29,6 +29,12 @@ class Logger
         virtual void addSensor(Sensor* sensor);
 
         /**
+         * Add a vector of sensors to the logger's list of sensors.
+        */
+       // virtual void addSensors(std::vector<Sensor*> sens);
+      // virtual void addSensors(Sensor* sens[]);
+
+        /**
          * Reads from each sensor and writes the timestamped data to the disk. 
          * Returns true if data was successfully written, false if not (either because
          * the number of bytes that should have been written to the disk was not written

@@ -44,9 +44,9 @@ public:
     void reset();
 	
 private:
-    unsigned long previous;
     unsigned long interval;
     res_t resolution;
+    unsigned long previous;
 };
 
 #endif /* METRO_H */

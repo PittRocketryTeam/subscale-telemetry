@@ -68,11 +68,21 @@ Data IMU::poll(Data data)
     //ox = event.orientation.x;
     //oy = event.orientation.y;
     //oz = event.orientation.z;
-    ox = oy = oz = 69.0f;
+    //ox = oy = oz = 69.0f;
+    o = sensor.getVector(Adafruit_BNO055::VECTOR_EULER);
+    ox = (float)o.x();
+    oy = (float)o.y();
+    oz = (float)o.z();
 
-    ax = event.acceleration.x;
-    ay = event.acceleration.y;
-    az = event.acceleration.z;
+    a = sensor.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+    ax = (float)a.x();
+    ay = (float)a.y();
+    az = (float)a.z();
+
+
+    //ax = event.acceleration.x;
+    //ay = event.acceleration.y;
+    //az = event.acceleration.z;
     
     //last_data = data;
 

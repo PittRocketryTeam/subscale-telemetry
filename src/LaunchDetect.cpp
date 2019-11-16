@@ -110,6 +110,7 @@ LaunchDetect::~LaunchDetect()
 bool LaunchDetect::init()
 {
     memset(launchDetect, 0, PEOPLE * sizeof(int));
+    return true;
 }
 
 Data LaunchDetect::read(Data data)
