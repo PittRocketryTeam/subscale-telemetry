@@ -1,5 +1,7 @@
 #include "GPS.hpp"
 #include "Adafruit_GPS.h"
+#include <Arduino.h>
+#include <HardwareSerial.h>
 
 #define GPSECHO false
 uint32_t timer = millis();
@@ -34,7 +36,6 @@ bool GPS::init()
     Serial.println("Initializing GPS"); 
 
     gps = new Adafruit_GPS(&Serial1);
-    //gps = Adafruit_GPS(&Serial1);
     
     pinMode(VIN_PIN, OUTPUT);
 

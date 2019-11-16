@@ -2,7 +2,7 @@
 *.code-workspace
 .vscode/
 .pio/build/
-*.checksum
+**.checksum
 
 # Prerequisites
 *.d
