@@ -30,7 +30,8 @@ class Logger
         /**
          * Add a vector of sensors to the logger's list of sensors.
         */
-        virtual void addSensors(std::vector<Sensor*> sens);
+       // virtual void addSensors(std::vector<Sensor*> sens);
+       virtual void addSensors(Sensor** sens);
 
         /**
          * Reads from each sensor and writes the timestamped data to the disk. 
@@ -59,7 +60,8 @@ class Logger
         /**
          * Sensors to log data from.
          */
-        std::vector<Sensor*> sensors;
+        //std::vector<Sensor*> sensors;
+        Sensor* sensors[10];
 
         /**
          * Logfile name.

@@ -1,7 +1,7 @@
 #ifndef __SENSOR_HPP__
 #define __SENSOR_HPP__
 
-#include <vector>
+//#include <vector>
 #include "Wire.h"
 #include "Data.hpp"
 
