@@ -9,15 +9,20 @@
 #include "Sensor.hpp"
 
 #define IMU_DIMENIONS 3
-#define I2C_ADDR 0x28
-
 
 class IMU : public Sensor
 {
     private:
         Adafruit_BNO055 sensor;
+        sensors_event_t event;
         bool verbose;
-        Data *last_data;
+        //Data *last_data;
+        Data last_data;
+
+        float ax, ay, az;
+        float ox, oy, oz;
+        imu::Vector<3> o;
+        imu::Vector<3> a;
 
     public:
 

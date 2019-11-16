@@ -8,6 +8,7 @@
 #include "SdFat.h"
 
 #define BUILTIN_SDCARD 254
+#define MAX_SENSORS 200
 
 class Logger
 {
@@ -41,6 +42,10 @@ class Logger
          */
         virtual bool log();
 
+        void reopen();
+        void close();
+        void flush();
+
         SdFat SD;
 
     private:
@@ -51,22 +56,24 @@ class Logger
          * 
          * Example log filename: Monday_10-07-2019_03:26:41.log
         */
-        virtual void generateFilename(char filename[]);
+        virtual void generateFilename();
 
         virtual Data readDataFromSensors();
 
-        virtual bool writeToMemory(Data data);
+        virtual bool writeToMemory(Data);
 
         /**
          * Sensors to log data from.
          */
-        //std::vector<Sensor*> sensors;
-        Sensor* sensors[10];
+        Sensor* sensors[MAX_SENSORS];
+        int num_sensors;
 
         /**
          * Logfile name.
         */
         char filename[128];
+        char buffer[1000];
+        File32 handle;
 };
 
 #endif
