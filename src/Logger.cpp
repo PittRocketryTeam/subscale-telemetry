@@ -72,12 +72,16 @@ bool Logger::writeToMemory(Data data)
 
     // TODO write csv format
 
-    handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
-            data.timestamp,
+    //handle.print("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
+            //data.timestamp,
+            handle.print(data.timestamp);
 
-            data.altimeterData.temperature, 
-            data.altimeterData.pressure, 
-            data.altimeterData.altitude,
+            //data.altimeterData.temperature, 
+            //data.altimeterData.pressure, 
+            //data.altimeterData.altitude,
+            handle.print(data.altimeterData.temperature);
+            handle.print(data.altimeterData.pressure);
+            handle.print(data.altimeterData.altitude);
             
             /*
             data.gpsData.time, 
@@ -99,19 +103,27 @@ bool Logger::writeToMemory(Data data)
             data.healthData.reg_3V3_battery_voltage,
             */
             
-            data.imuData.euler_abs_orientation_x, 
-            data.imuData.euler_abs_orientation_y, 
-            data.imuData.euler_abs_orientation_z,
+            //data.imuData.euler_abs_orientation_x, 
+            //data.imuData.euler_abs_orientation_y, 
+            //data.imuData.euler_abs_orientation_z,
+            handle.print(data.imuData.euler_abs_orientation_x);
+            handle.print(data.imuData.euler_abs_orientation_y);
+            handle.print(data.imuData.euler_abs_orientation_z);
 
-            data.imuData.acceleration_x,
-            data.imuData.acceleration_y,
-            data.imuData.acceleration_z,
+            //data.imuData.acceleration_x,
+            //data.imuData.acceleration_y,
+            //data.imuData.acceleration_z,
+            handle.print(data.imuData.acceleration_x);
+            handle.print(data.imuData.acceleration_y);
+            handle.print(data.imuData.acceleration_z);
 
-            data.healthData.main_battery_temperature,
-            data.photocellData.brightness
+            //data.healthData.main_battery_temperature,
+            //data.photocellData.brightness
+            handle.print(data.healthData.main_battery_temperature);
+            handle.print(data.photocellData.brightness);
             
            // data.photocellData.brightness
-    );
+    //);
     /*int i;
     for (i = 0; i < PEOPLE; i++)
     {

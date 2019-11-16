@@ -3,6 +3,7 @@
 
 #include "Sensor.hpp"
 #include "Data.hpp"
+#include <Arduino.h>
 
 class AnalogDevices : public Sensor
 {
