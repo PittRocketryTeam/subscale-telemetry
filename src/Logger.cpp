@@ -71,7 +71,8 @@ bool Logger::writeToMemory(Data data)
     // TODO write csv format
 
     handle.printf("%ld, ,%f,%f,%f, ,%f,%f,%f, , %f,%f,%f, ,%f,%f\n",
-            data.timestamp,
+            2,
+            //data.timestamp,
 
             data.altimeterData.temperature, 
             data.altimeterData.pressure, 
