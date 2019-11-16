@@ -54,7 +54,13 @@ Data Altimeter::poll(Data data)
         Serial.println("Cannot poll altitude --- ground pressure not yet set!");
     else
         data.altimeterData.altitude = bmp.readAltitude(initAlt);
-    Serial.printf("temp: %f\npressure: %f\nalt: %f\n", data.altimeterData.temperature, data.altimeterData.pressure, data.altimeterData.altitude);
+    //Serial.println("temp: %f\npressure: %f\nalt: %f\n" + data.altimeterData.temperature + data.altimeterData.pressure + data.altimeterData.altitude);
+    Serial.print("temp: ");
+    Serial.println(data.altimeterData.temperature);
+    Serial.print("pressure: ");
+    Serial.println(data.altimeterData.pressure);
+    Serial.print("temp: ");
+    Serial.println(data.altimeterData.altitude);
     return data;
 }
 

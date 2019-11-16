@@ -8,23 +8,24 @@ Logger::~Logger() {}
 bool Logger::init()
 {
     generateFilename(filename);  // Generate unique log filename
-    Serial.printf("filename = %s", filename);
+    Serial.print("filename = ");
+    Serial.println(filename);
     return SD.begin(BUILTIN_SDCARD);    // Make sure SD card begins
 }
 
 void Logger::addSensor(Sensor* sensor)
 {
-    sensors.push_back(sensor);
+    sensors->push_back(sensor);
 }
 
-void Logger::addSensors(std::vector<Sensor*> sens)
+void Logger::addSensors(Sensor** sens)
 {
     
 }
 
 bool Logger::log()
 {
-    Serial.printf("Logging data");
+    Serial.print("Logging data");
     Data data = readDataFromSensors();  // Read data from sensors              
     return writeToMemory(data);         // Write data to micro SD
 }
@@ -55,8 +56,11 @@ bool Logger::writeToMemory(Data data)
         
     // TODO: Serialize data for logging
 
-    for (uint64_t i = 0; i < sizeof(data); i++)
-        Serial.printf("writen to board: %c\n", &data);
+    for (uint64_t i = 0; i < sizeof(data); i++){
+        Serial.print("writen to board: ");
+        Serial.print(&data);
+    }
+        //Serial.print("writen to board: %c\n", &data);
     size_t bytes_written = microSD.write(&data, sizeof(data));     
     microSD.close();                                                        
         
