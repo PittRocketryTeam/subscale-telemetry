@@ -29,7 +29,7 @@ void armed();
 void setup()
 {
     pinMode(13, OUTPUT);
-    pinMode(33, INPUT_PULLUP);
+    pinMode(ENABLE, INPUT_PULLUP);
 
     digitalWrite(13, HIGH);
 
@@ -58,7 +58,7 @@ void setup()
 void loop()
 {
     lastmode = mode;
-    mode = digitalRead(33);
+    mode = digitalRead(ENABLE);
 
     if (lastmode != mode)
     {
@@ -69,11 +69,11 @@ void loop()
         swtch = 1;
     }
 
-    if (mode == 1)
+    if (mode == 0)
     {
         ready();
     }
-    else if (mode == 0)
+    else if (mode == 1)
     {
         //Serial.println("armed");
         armed();
@@ -112,21 +112,12 @@ void armed()
         delay(100);
         digitalWrite(13, 0);
         delay(100);
-        //logger.reopen();
         swtch = 0;
     }
 
     state = gyro.poll(state);
     state = alt.poll(state);
     state = ad.poll(state);
-    //state = launchDetect.poll(state);
-
-    /*Serial.print(state.imuData.euler_abs_orientation_x);
-    Serial.print(", ");
-    Serial.print(state.imuData.euler_abs_orientation_y);
-    Serial.print(", ");
-    Serial.print(state.imuData.euler_abs_orientation_z);
-    Serial.println();*/
 
     logger.log();
 }

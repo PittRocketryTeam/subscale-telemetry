@@ -1,7 +1,9 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
+
 #define PHOTOCELL_PIN 34
 #define THERMISTOR_PIN 35
+#define ENABLE 33
 
 #define VERBOSE 1
 #define ALTIMETER_SCL 19 
